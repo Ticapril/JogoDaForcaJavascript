@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Forca</title>
+    <style>
+        .borda-jogo{
+            border: 1px solid green;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+        }
+        .cabeca, .corpo, .braco-direito,.braco-esquerdo,.perna-esquerda,.perna-direita {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- o usuario digita a letra que ele quer chutar -->
+    <!-- entrada de dados do usuario -->
+    <form action="post" id="entradaDados" name="entradaDadosFormulario">
+        <label for="">Chute uma letra:</label>
+        <input type="text" name="chuteUsuario" id=""/>
+        <button type="submit" onclick="pageNotLoad();">Responder</button>
+    </form>
+    
+    <div class="forca container">
+        <div class="cabeca borda-jogo"></div>
+        <div class="corpo borda-jogo"></div>
+        <div class="braco-esquerdo borda-jogo"></div>
+        <div class="braco-direito borda-jogo"></div>
+        <div class="perna-esquerda borda-jogo"></div>
+        <div class="perna-direita borda-jogo"></div>
+    </div>
+    <div>
+        <ul>
+            <li class="l0"></li>
+            <li class="l1"></li>
+            <li class="l2"></li>
+            <li class="l3"></li>
+            <li class="l4"></li>
+            <li class="l5"></li>
+            <li class="l6"></li>
+        </ul>
+    </div>
+    <script>
+        var submits = 0; //controlo a quantidade de vezes que o formulario foi clicado
+        // o que deve ser feito agora
+        // sortear a palavra vamos fazer o sorteio da palavra
+        function getRandomInt(min,max){
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min);
+        }
+        function pageNotLoad(){
+            var formulario = document.getElementById("entradaDados");
+            formulario.addEventListener("submit", e => {
+                e.preventDefault();
+                console.log("Deu certo!");
+                checkWord();
+                submits++;
+            });
+        }
+        function getDataFromForm(){
+            var letraDigitada;
+            var formulario = document.forms.entradaDadosFormulario;
+            console.log(formulario.elements[0]);
+            letraDigitada = formulario.elements[0].value;
+            console.log(letraDigitada);
+            return letraDigitada;
+        }
+        //defino as palavras do jogo
+        var palavras = ["carro","janela","garrafa","cabelo"];
+        var palavraSorteada = palavras[getRandomInt(0,3)]; // faço o sorteio da palavra
+        console.log(palavraSorteada);
+        
+        
+        var respostaUsuario;
+        var posicaoAtual = 0;
+        var membro;
+        var membros = ["membros","cabeca","corpo","braco-esquerdo","braco-direito","perna-esquerda","perna-direita"];
+        var tentativas = 0;
+        var acertos = 0;
+        var resultadoFinal;
+
+        
+       
+        function checkWord(){
+            respostaUsuario = getDataFromForm();
+            //verificar se a palavra foi encontrada no vetor de palavra sorteada
+            var palavraExiste;
+            //percorre o vetor palavraSorteada verificando se a palavra digitada pelo usuario está dentro do array
+            for(var i = 0; i < palavraSorteada.length; i++){
+                if(palavraSorteada[i] == respostaUsuario){
+                    palavraExiste = 1;
+                    resultadoFinal = document.querySelector(".l" + i);
+                    console.log(resultadoFinal);
+                    resultadoFinal.innerHTML = respostaUsuario;
+                } else if( i == palavraSorteada.length - 1){
+                    alert("Palavra Não existente!");
+                    break;
+                }
+            }
+        }
+            // for(var i = 0; i < palavraSorteada.length; i++){
+            //     console.log(palavraSorteada[i]);
+            // }
+       
+        
+        // for(var i = 0; erros <= 5; i++){
+        //       respostaUsuario = getDataFromForm(); 
+        //         if(respostaUsuario == palavraSorteada[posicaoAtual]){
+        //             acertos++; // incremento o valor
+        //             posicaoAtual++;
+        //             if(acertos == letras.length){ // verifico se ganhou
+        //                 alert("Ganhou!");
+        //                 break; // quebro o loop
+        //             }
+        //             alert("Resposta Correta!");
+        //         }else {
+        //             if(erros >= 6){
+        //                 alert("perdeu!");
+        //                 break;
+        //             }
+        //             erros++;
+        //             alert("Resposta Errada!");
+        //             membro = document.querySelector("."+ membros[erros]);
+        //             membro.style.backgroundColor = "red";
+        //         }
+        // }
+
+
+    </script>
+</body>
+</html>
